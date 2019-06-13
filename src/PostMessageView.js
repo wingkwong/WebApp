@@ -24,6 +24,7 @@ import {constant, RoleEnum} from './config/default';
 import UploadImageButton from './UploadImageButton';
 import IntegrationReactSelect from './IntegrationReactSelect';
 import SignInButton from './SignInButton';
+import AnonymousSignInButton from './AnonymousSignInButton';
 import { parseTime, parseDate, parseLocation } from './util/messageParser';
 import ParseDateButton from './ParseDateButton';
 import ParseTimeButton from './ParseTimeButton';
@@ -876,6 +877,7 @@ class PostMessageView extends Component {
     } else {
       return (
         <div className="cta-report-wrapper">
+          <AnonymousSignInButton/>
           <SignInButton label={`請先登入方可${constant.postLabel}`}/>
         </div>
       );

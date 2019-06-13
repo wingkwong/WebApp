@@ -31,6 +31,7 @@ import {
   CLOSE_SNACKBAR,
   UPDATE_SEARCHEVENT_LOCATION,
   TOGGLE_SEARCHEVENT_DIALOG,
+  ANONYMOUS_SIGN_IN
 } from './actions/types';
 import {firebaseConfig} from './firebase-config'
 import firebase from 'firebase/app';
@@ -170,6 +171,10 @@ function dispatchCloseSnackbar() {
   return {type: CLOSE_SNACKBAR, open: false}
 }
 
+function dispatchAnonymousSignIn() {
+  return {type: ANONYMOUS_SIGN_IN, flag: true}
+}
+
 export function init3rdPartyLibraries() {
   //console.log(firebaseConfig);
   firebase.initializeApp(firebaseConfig);
@@ -288,6 +293,12 @@ export function signIn() {
   };
 }
 
+export function anonymousSignIn() {
+  return dispatch => {
+    dispatch(dispatchAnonymousSignIn());
+  }
+}
+
 export function signOut() {
   return dispatch => {
     firebase.auth().signOut();
@@ -372,12 +383,17 @@ export function updateFilterWithCurrentLocation(filterID) {
 }
 
 export function fetchAddressBookByUser(user) {
-  return dispatch => {
-    getAddressBook(user).then((addresses) => {
-      dispatch(fetchAddressBook(addresses));
-    });
-
-  };
+  console.log(user)
+  if(user.is_anonymous_user == null || !user.is_anonymous_user) {
+    return dispatch => {
+      getAddressBook(user).then((addresses) => {
+        dispatch(fetchAddressBook(addresses));
+      });
+    };
+  } else {
+    // FIXME:
+  }
+ 
 }
 
 export function fetchAddressBookFromOurLand() {

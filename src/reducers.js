@@ -33,6 +33,7 @@ import {
   CLOSE_SNACKBAR,
   UPDATE_SEARCHEVENT_LOCATION,
   TOGGLE_SEARCHEVENT_DIALOG,
+  ANONYMOUS_SIGN_IN
 } from './actions/types';
 
 
@@ -49,6 +50,18 @@ function geoLocationReducer(state={pos: null, enabled: true}, action) {
 
 function userReducer(state={user: null, fcmToken: null, userProfile: null, lastLogin: null, bookmarkList: [], loading: true}, action) {
   switch (action.type) {
+    case ANONYMOUS_SIGN_IN:
+      return {
+        ...state, 
+        user: {
+          is_anonymous_user: true,
+          displayName: '匿名用戶',
+        },
+        userProfile:{
+          displayName: '匿名用戶',
+          role: 'anonymous_user'
+        }
+      };
     case FETCH_USER:
       return {...state, user: action.user, loading: action.loading};
     case FETCH_USER_PROFILE:
